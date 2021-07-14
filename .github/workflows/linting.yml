@@ -1,0 +1,30 @@
+# This is a basic workflow to help you get started with Actions
+
+name: flake8-lint
+  uses: py-actions/flake8@v1.1.0
+  with:
+    # Path to source file or directory (default='.')
+    path: # optional, default is .
+    # Boolean for pip upgrade prior to flake8 installation (default='false')
+    update-pip: # optional, default is false
+    # Comma delimited list of ignored flake8 rule codes (optional)
+    ignore: # optional, default is none
+    # Comma delimited list of excluded paths (optional)
+    exclude: # optional, default is none
+    # Integer value representing max acceptable line length (optional)
+    max-line-length: # optional, default is none
+    # flake8 arguments for test execution (optional)
+    args: # optional, default is none
+    # The flake8 version for tests (optional, default='latest')
+    flake8-version: # optional, default is latest
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
