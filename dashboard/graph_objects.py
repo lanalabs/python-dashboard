@@ -1,5 +1,4 @@
 import plotly.graph_objects as go
-import plotly.express as px
 
 import dash_core_components as dcc
 import dash_html_components as html
@@ -22,7 +21,8 @@ def get_indicator_graph(value, mode="number", title=None, height=250):
     return temp_fig
 
 
-def indicator_div(value, mode="number", height=250, title=None, width=3, id="indicator_graph"):
+def indicator_div(value, mode="number", height=250, title=None,
+                  width=3, id="indicator_graph"):
     fig = get_indicator_graph(value, mode, title=title, height=height)
 
     return html.Div(children=[dcc.Graph(
@@ -31,7 +31,8 @@ def indicator_div(value, mode="number", height=250, title=None, width=3, id="ind
     )], id=id, n_clicks=0)
 
 
-def indicator_col(value, mode="number", height=250, title=None, width=3, id="indicator_graph"):
+def indicator_col(value, mode="number", height=250, title=None,
+                  width=3, id="indicator_graph"):
     div = indicator_div(value, mode, height, title, width, id=id)
     return dbc.Col(
         div,

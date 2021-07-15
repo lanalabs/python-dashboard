@@ -6,9 +6,9 @@ dashboard_id = config["dashboard_id"]
 
 def navbar():
     """
-    Implements the navigation bar that is at the top of the page. New pages need to be first added here, 
-    then the link needs to be added to the index.
-    For more customization information please see: 
+    Implements the navigation bar that is at the top of the page. New pages need to
+    be first added here, then the link needs to be added to the index.
+    For more customization information please see:
     https://dash-bootstrap-components.opensource.faculty.ai/docs/components/navbar/
     """
     navbar = dbc.NavbarSimple(
