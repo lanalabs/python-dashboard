@@ -6,6 +6,9 @@ from app import app, application, config
 from apps import page_1, page_2
 
 
+print(f"Server {str(application)} running.")
+
+
 app.layout = html.Div([
     dcc.Location(id='url', refresh=True),
     html.Div(id='page-content')
