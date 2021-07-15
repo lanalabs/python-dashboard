@@ -15,7 +15,7 @@ Install required packages:
 
 ### Setting up config.yml and running the dashboard locally
 Depending on if you upload the dashboard to a local instance or the cloud version, fill in the fields for `config.yml`. 
-Is is also possible to run the dashboard independend of LANA PM.  
+It is also possible to run the dashboard independent of LANA PM.  
 Simply fill in the API key and log_id into the `lana_listener` object and start `index.py`.
 
 ### Uploading your first dashboard
