@@ -10,6 +10,7 @@ import json
 from app import app, config
 from navbar import navbar
 from graph_objects import indicator_div, indicator_col
+from api_calls import number_of_cases
 
 
 ll = lana_listener.LanaListener(
@@ -74,19 +75,8 @@ def update_indicator_median_tfs(api_key, log_id, tfs):
      Input('LanaListener', 'lana_log_id')]
 )
 def number_cases(api_key, log_id):
-    api_key = api_key[8:]
-
-    api = pylana.create_api(**{
-        "scheme": config["scheme"],
-        "host": config["host"],
-        "port": config["port"],
-        "token": api_key
-    })
-
-    df = api.aggregate(log_id, metric="frequency", aggregation_function="sum")
-    val = df["frequency"].values[0]
-
-    ind = indicator_div(val, title="Anzahl Cases (ohne TFS)")
+    num_cases = number_of_cases(log_id, api_key)
+    ind = indicator_div(num_cases, title="Anzahl Cases (ohne TFS)")
     return ind
 
 
@@ -97,21 +87,8 @@ def number_cases(api_key, log_id):
      Input('LanaListener', 'lana_trace_filter_sequence')]
 )
 def number_case_tfs(api_key, log_id, tfs):
-    api_key = api_key[8:]
-    tfs = json.loads(tfs)
-
-    api = pylana.create_api(**{
-        "scheme": config["scheme"],
-        "host": config["host"],
-        "port": config["port"],
-        "token": api_key
-    })
-
-    df = api.aggregate(log_id, metric="frequency",
-                       aggregation_function="sum", trace_filter_sequence=tfs)
-    val = df["frequency"].values[0]
-
-    ind = indicator_div(val, title="Anzahl Cases (mit TFS)")
+    num_cases = number_of_cases(log_id, api_key, tfs)
+    ind = indicator_div(num_cases, title="Anzahl Cases (mit TFS)")
     return ind
 
 
