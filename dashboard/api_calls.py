@@ -38,6 +38,8 @@ def aggregate(api_key, trace_filter_sequence, **kwargs):
     return df
 
 def number_of_cases(log_id, api_key, tfs=[]) -> int:
+    """Returns the number of cases."""
+
     df = aggregate(api_key,
                    trace_filter_sequence=tfs,
                    log_id=log_id,
@@ -45,3 +47,14 @@ def number_of_cases(log_id, api_key, tfs=[]) -> int:
                    aggregation_function="sum"
                    )
     return int(df["frequency"].iloc[0])
+
+
+def median_case_duration(log_id, api_key, tfs=[]) -> float:
+    """Returns median case duration in seconds."""
+    df = aggregate(api_key=api_key,
+                   log_id=log_id,
+                   trace_filter_sequence=tfs,
+                   metric="duration",
+                   aggregation_function="median"
+                   )
+    return float(df["duration"].values[0] / 1000)

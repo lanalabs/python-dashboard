@@ -3,14 +3,12 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 
 
-import pylana
 import lana_listener
-import json
 
-from app import app, config
+from app import app
 from navbar import navbar
 from graph_objects import indicator_div, indicator_col
-from api_calls import number_of_cases
+from api_calls import number_of_cases, median_case_duration
 
 
 ll = lana_listener.LanaListener(
@@ -50,22 +48,11 @@ layout = html.Div(children=[ll,
      Input('LanaListener', 'lana_trace_filter_sequence')]
 )
 def update_indicator_median_tfs(api_key, log_id, tfs):
-    api_key = api_key[8:]
-    tfs = json.loads(tfs)
+    median = median_case_duration(log_id, api_key, tfs=tfs)
 
-    api = pylana.create_api(**{
-        "scheme": config["scheme"],
-        "host": config["host"],
-        "port": config["port"],
-        "token": api_key
-    })
+    median = median / (60 * 60 * 24)  # results in days
 
-    df = api.aggregate(log_id, metric="duration",
-                       aggregation_function="median",
-                       trace_filter_sequence=tfs)
-    val = df["duration"].values[0] / (60 * 60 * 24 * 1000)  # Days
-
-    ind = indicator_div(val, title="Mediane Durchlaufzeit in Tagen (mit TFS)")
+    ind = indicator_div(median, title="Mediane Durchlaufzeit in Tagen (mit TFS)")
     return ind
 
 
