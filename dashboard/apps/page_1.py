@@ -7,8 +7,9 @@ import lana_listener
 
 from app import app
 from navbar import navbar
-from graph_objects import indicator_div, indicator_col
+#  from graph_objects import indicator_div, indicator_col
 from api_calls import number_of_cases, median_case_duration
+from dashboard_components.indicator_objects import indicator_div, indicator_col
 
 
 ll = lana_listener.LanaListener(
