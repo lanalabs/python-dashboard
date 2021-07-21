@@ -38,9 +38,13 @@ This repository follows a basic structure to allow for multiple pages. Each page
    |-- __init__.py
    |-- app1.py
    |-- app2.py
-- graph_objects.py
+- dashboard-components
+   |-- indicator_objects.py
+   |-- api_requests.py
 ```
-Common functionality should be shared across pages. Elements that have the same formatting should be defined as functions and not as copy pasted code. If API calls or data can be used by other functions, they should also be implemented in an accessible way. The more functions elements and functions are implemented, the fewer time it will take to build new dashboards. An example of this can be seen in `graph_objects.py`
+Common functionality should be shared across pages using the `dashboard-components` submodule. Elements that have the same formatting should be defined as functions and not as copy pasted code. If API calls or data can be used by other functions, they should also be implemented in an accessible way. The more functions elements and functions are implemented, the fewer time it will take to build new dashboards.  
+On how to use submodules please see the Wiki entry here:
+https://github.com/lanalabs/python-dashboard/wiki/Working-with-submodules-in-VS-Code
 
 
 
