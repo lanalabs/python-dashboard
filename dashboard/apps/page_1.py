@@ -1,15 +1,21 @@
 from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+import dash_core_components as dcc
 
 
 import lana_listener
 
 from app import app
 from navbar import navbar
-#  from graph_objects import indicator_div, indicator_col
 from api_calls import number_of_cases, median_case_duration
 from dashboard_components.indicator_objects import indicator_div, indicator_col
+from dashboard_components.bar_charts import day_of_week_chart
+from dashboard_components.kpis import cases_per_weekday
+
+remove_bar_config = {'displayModeBar': False,
+                     'displaylogo': False
+                     }
 
 
 ll = lana_listener.LanaListener(
@@ -38,7 +44,9 @@ layout = html.Div(children=[ll,
                                      dbc.Col(id="number_cases_tfs",
                                              width={"size": 3})
                                      ]),
-                            html.Div(id='my-output_page1')])
+                            html.Div(id='my-output_page1'),
+                            dbc.Row([dbc.Col(dcc.Graph(id='day_of_week_barchart',
+                                     config=remove_bar_config), width=6)])])
 
 
 @app.callback(
@@ -88,3 +96,13 @@ def number_case_tfs(api_key, log_id, tfs):
 )
 def update_output_div_abc(v1, v2, v3):
     return 'Api Key: {}, Log id: {}, TFS: {}'.format(v1, v2, v3)
+
+@app.callback(
+    Output(component_id='day_of_week_barchart', component_property='figure'),
+    [Input('LanaListener', 'lana_api_key'),
+     Input('LanaListener', 'lana_log_id'),
+     Input('LanaListener', 'lana_trace_filter_sequence')]
+)
+def update_day_of_week_barchart(api_key, log_id, tfs):
+    df = cases_per_weekday(log_id, api_key, tfs)
+    return day_of_week_chart(df)
