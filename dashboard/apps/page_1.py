@@ -6,11 +6,12 @@ import dash_bootstrap_components as dbc
 import pylana
 import lana_listener
 import json
+import os
 
-from app import app, config
+from urllib.parse import urlparse
 from navbar import navbar
 from graph_objects import indicator_div, indicator_col
-
+from app import app
 
 ll = lana_listener.LanaListener(
     id='LanaListener',
@@ -49,13 +50,13 @@ layout = html.Div(children=[ll,
      Input('LanaListener', 'lana_trace_filter_sequence')]
 )
 def update_indicator_median_tfs(api_key, log_id, tfs):
+    fooConfig = urlparse(os.environ['JANUS_URL'])
     api_key = api_key[8:]
     tfs = json.loads(tfs)
-
     api = pylana.create_api(**{
-        "scheme": config["scheme"],
-        "host": config["host"],
-        "port": config["port"],
+        "scheme": fooConfig.scheme,
+        "host": fooConfig.hostname,
+        "port": fooConfig.port,
         "token": api_key
     })
 
@@ -74,12 +75,12 @@ def update_indicator_median_tfs(api_key, log_id, tfs):
      Input('LanaListener', 'lana_log_id')]
 )
 def number_cases(api_key, log_id):
+    fooConfig = urlparse(os.environ['JANUS_URL'])
     api_key = api_key[8:]
-
     api = pylana.create_api(**{
-        "scheme": config["scheme"],
-        "host": config["host"],
-        "port": config["port"],
+        "scheme": fooConfig.scheme,
+        "host": fooConfig.hostname,
+        "port": fooConfig.port,
         "token": api_key
     })
 
@@ -97,13 +98,14 @@ def number_cases(api_key, log_id):
      Input('LanaListener', 'lana_trace_filter_sequence')]
 )
 def number_case_tfs(api_key, log_id, tfs):
+    fooConfig = urlparse(os.environ['JANUS_URL'])
     api_key = api_key[8:]
     tfs = json.loads(tfs)
 
     api = pylana.create_api(**{
-        "scheme": config["scheme"],
-        "host": config["host"],
-        "port": config["port"],
+        "scheme": fooConfig.scheme,
+        "host": fooConfig.hostname,
+        "port": fooConfig.port,
         "token": api_key
     })
 

@@ -2,6 +2,9 @@ from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 
+import os
+
+
 from app import app, application, config
 from apps import page_1, page_2
 
@@ -14,8 +17,7 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 
-dashboard_id = config["dashboard_id"]
-
+dashboard_id = os.path.basename(os.getcwd())
 
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
