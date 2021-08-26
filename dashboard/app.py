@@ -1,10 +1,23 @@
 import dash
-import yaml
+import os
 from flask import Flask
+from urllib.parse import urlparse
 import dash_bootstrap_components as dbc
 
-with open("config.yml") as f:
-    config = yaml.safe_load(f)
+# The hardcoded part can be removed once the JANUS_URL can be read from the environment.
+# At the current stage it is not present.
+try:
+    fooConfig = urlparse(os.environ['JANUS_URL'])
+    config = {"scheme": fooConfig.scheme,
+              "host": fooConfig.hostname,
+              "port": fooConfig.port}
+except Exception:
+    config = {"scheme": "https",
+              "host": "cloud-backend.lanalabs.com",
+              "port": 4000}
+
+config["dashboard_id"] = os.path.basename(os.getcwd())
+print(config)
 
 application = Flask("example_dashboard")
 app = dash.Dash(name=__name__,

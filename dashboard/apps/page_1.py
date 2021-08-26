@@ -44,7 +44,6 @@ layout = html.Div(children=[ll,
                                      dbc.Col(id="number_cases_tfs",
                                              width={"size": 3})
                                      ]),
-                            html.Div(id='my-output_page1'),
                             dbc.Row([dbc.Col(dcc.Graph(id='day_of_week_barchart',
                                      config=remove_bar_config), width=6)])])
 
@@ -87,15 +86,6 @@ def number_case_tfs(api_key, log_id, tfs):
     ind = indicator_div(num_cases, title="Anzahl Cases (mit TFS)")
     return ind
 
-
-@app.callback(
-    Output(component_id='my-output_page1', component_property='children'),
-    [Input('LanaListener', 'lana_api_key'),
-     Input('LanaListener', 'lana_log_id'),
-     Input('LanaListener', 'lana_trace_filter_sequence')]
-)
-def update_output_div_abc(v1, v2, v3):
-    return 'Api Key: {}, Log id: {}, TFS: {}'.format(v1, v2, v3)
 
 @app.callback(
     Output(component_id='day_of_week_barchart', component_property='figure'),
