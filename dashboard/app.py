@@ -10,11 +10,13 @@ try:
     fooConfig = urlparse(os.environ['JANUS_URL'])
     config = {"scheme": fooConfig.scheme,
               "host": fooConfig.hostname,
-              "port": fooConfig.port}
+              "port": fooConfig.port,
+              "url": fooConfig.url}
 except Exception:
     config = {"scheme": "https",
               "host": "cloud-backend.lanalabs.com",
-              "port": 4000}
+              "port": 4000,
+              "url": "https://cloud-backend.lanalabs.com"}
 
 config["dashboard_id"] = os.path.basename(os.getcwd())
 print(config)

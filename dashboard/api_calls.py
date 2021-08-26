@@ -1,10 +1,7 @@
 import pylana
 import json
-import yaml
+from app import config
 
-
-with open("config.yml") as f:
-    config = yaml.safe_load(f)
 
 def create_connection(api_key, port=None):
     scheme = config["scheme"]
