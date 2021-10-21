@@ -15,7 +15,7 @@ try:
 except Exception:
     config = {"scheme": "https",
               "host": "cloud-backend.lanalabs.com",
-              "port": 4000,
+              "port": 443,
               "url": "https://cloud-backend.lanalabs.com"}
 
 config["dashboard_id"] = os.path.basename(os.getcwd())
