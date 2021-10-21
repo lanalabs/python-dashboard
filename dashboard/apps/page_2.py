@@ -4,6 +4,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 import dash
 
+import dash_highchart
 import plotly.express as px
 
 from functools import lru_cache
@@ -23,8 +24,8 @@ global_df = pd.DataFrame()
 
 ll = lana_listener.LanaListener(
     id='LanaListener',
-    lana_api_key='',
-    lana_log_id='',
+    lana_api_key='684aeb64097741bfa66a20712e36a11e',
+    lana_log_id='70d5b7ae-42d2-4196-9a26-a313d3d717ff',
     lana_trace_filter_sequence='[]'
 )
 nb = navbar()
@@ -39,8 +40,10 @@ layout = html.Div(children=[
     dbc.Row(dbc.Col(dbc.Button("Neue Zeile", color="primary", className="mr-1", n_clicks=0,
                                id='new_row_activity_table'), width={"size": 2, "offset": 1})),
     html.Br(),
-    dbc.Row(dbc.Col(id="total_costs",
-                    width={"size": 3}))
+    dbc.Row([
+        dbc.Col(id="total_costs", width={"size": 3}),
+        dbc.Col(id="hc-bar-chart"),
+        ])
 ])
 
 
@@ -127,6 +130,43 @@ def update_frequency_graph(cell, data, api_key, log_id, tfs):
                        labels={'byMonth_dt': 'Monat'},
                        template="ggplot2")
     return fig
+
+@app.callback(
+    Output("hc-bar-chart", "children"),
+    Input('cost_table', 'active_cell'),
+    State('cost_table', 'data'),
+    State('LanaListener', 'lana_api_key'),
+    State('LanaListener', 'lana_log_id'),
+    State('LanaListener', 'lana_trace_filter_sequence')
+)
+def update_hc_frequency_graph(cell, data, api_key, log_id, tfs):
+    row = cell["row"]
+    res = data[row]["Aktivitätsname"]
+    df = activity_per_timeUnit(api_key=api_key, log_id=log_id, tfs=tfs,
+                               activities=[res], frequency="byMonth")
+    df["byMonth_dt"] = pd.to_datetime(df.byMonth)
+    
+    return dash_highchart.DashHighchart(
+            id='hc-bar-chart-fig',
+            chartOptions={
+                'chart': {
+                    'type': 'bar'
+                },
+                'xAxis': {
+                    'categories': df["byMonth"],
+                },
+                'title': {
+                    'text': f'Frequency per Month: {res}'
+                },
+                'series': [
+                    {'data': df["frequency"]}
+                ],
+                'colors': ["#008580", "#c4345d", "#6baed6", "#9ecae1",
+                        "#c6dbef", "#e6550d", "#fd8d3c", "#fdae6b"],
+                'plotOptions': {}
+            }
+        )
+
 
 @app.callback(
     Output('total_costs', 'children'),
