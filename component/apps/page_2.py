@@ -28,22 +28,11 @@ ll = lana_listener.LanaListener(
     lana_log_id='70d5b7ae-42d2-4196-9a26-a313d3d717ff',
     lana_trace_filter_sequence='[]'
 )
-nb = navbar()
+
 layout = html.Div(children=[
-    nb,
     ll,
-    html.Center(html.H1(children='Kosten durch Vorkommen von Aktivitäten')),
-    html.Br(),
     dbc.Row([dbc.Col(html.Div(id="cost_table_div"), width={"size": 5, "offset": 1}),
-             dbc.Col(dcc.Graph(id='activity_p_month',
-                               config=remove_bar_config), width=6)]),
-    dbc.Row(dbc.Col(dbc.Button("Neue Zeile", color="primary", className="mr-1", n_clicks=0,
-                               id='new_row_activity_table'), width={"size": 2, "offset": 1})),
-    html.Br(),
-    dbc.Row([
-        dbc.Col(id="total_costs", width={"size": 3}),
-        dbc.Col(id="hc-bar-chart"),
-        ])
+             dbc.Col(id="hc-bar-chart", width=4)])
 ])
 
 
@@ -74,7 +63,6 @@ def gen_table(api_key, log_id, tfs):
 
 @app.callback(
     Output('cost_table', 'data'),
-    Input('new_row_activity_table', 'n_clicks'),
     Input('cost_table', 'data_timestamp'),
     State('cost_table', 'data'),
     State('cost_table', 'columns'),

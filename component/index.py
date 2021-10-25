@@ -20,13 +20,7 @@ dashboard_id = config["dashboard_id"]
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == f'/{dashboard_id}/apps/app1':
-        return page_1.layout
-    elif pathname == f'/{dashboard_id}/apps/app2':
-        return page_2.layout
-    else:
-        return page_1.layout
-
+    return page_2.layout
 
 if __name__ == '__main__':
     app.run_server(debug=True)
