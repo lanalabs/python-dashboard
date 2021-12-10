@@ -25,7 +25,7 @@ application = Flask("example_dashboard")
 app = dash.Dash(name=__name__,
                 server=application,
                 suppress_callback_exceptions=True,
-                external_stylesheets=[dbc.themes.FLATLY],
+                #external_stylesheets=["dashboard/bootstrap.css"],
                 url_base_pathname=f'/{config["dashboard_id"]}/')
 
 server = app.server
