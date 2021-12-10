@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+set -e
+
+DASHBOARD_NAME="csimple"
+ASSETSRC="simple_dashboard"
+LOG_ID="3fc2d6e5-c9b8-4f5f-9167-8a6691a4b469"
+API_KEY="abbbed8d6f5544c9873ee353d95d2fe4"
+URL="http://localhost:4000"
+ASSET="../upload.zip"
+
+while [ 1 ]; do
+  rm -f ${ASSET}
+  pushd $ASSETSRC && zip -r ${ASSET} * && popd
+
+  DASHBOARD_ID=$(curl -X POST ${URL}/api/v2/custom-dashboards \
+                      -H "Authorization: API-Key ${API_KEY}" \
+                      -H "Content-Type: application/json" \
+                      --data-raw '{
+    "name": "csimple",
+    "type": "python_dashboard"
+  }' | jq -r .id)
+
+  echo "Advanced dashboard id: ${DASHBOARD_ID}"
+
+  echo "Uploading ..."
+
+  curl -X POST ${URL}/api/v2/custom-dashboards/${DASHBOARD_ID}/source \
+       -H "Authorization: API-Key ${API_KEY}" \
+       -F file=@"./upload.zip"
+
+  echo "Connecting ..."
+
+  curl -X POST ${URL}/api/v2/resource-connections \
+       -H "Authorization: API-Key ${API_KEY}" \
+       -H "Content-Type: application/json" \
+       --data-raw '{
+    "log_id":"'"${LOG_ID}"'",
+    "custom_dashboard_id":"'"${DASHBOARD_ID}"'"
+  }' 1>/dev/null
+
+  echo
+  echo "Either press Ctrl-C to interrupt _or_ ENTER to clean up and move on!"
+
+  read
+
+  echo "DELETING"
+
+  curl -X DELETE ${URL}/api/v2/custom-dashboards/${DASHBOARD_ID} \
+                    -H "Authorization: API-Key ${API_KEY}" \
+                    -H "Content-Type: application/json"
+  read
+done
+
+exit 0
+
+
+# curl -X POST http://localhost:4000/api/v2/custom-dashboards/${DASHBOARD_ID}/source \
+#      -H "Authorization: API-Key ${API_KEY}" \
+#      -F file=@"./python_app.zip"
+
+# curl -X POST http://localhost:4000/api/v2/resource-connections \
+#      -H "Authorization: API-Key ${API_KEY}" \
+#      -H "Content-Type: application/json" \
+#      --data-raw '{
+#     "log_id":"'"${LOG_ID}"'",
+#     "custom_dashboard_id":"'"${DASHBOARD_ID}"'"
+#   }'
+
+# SHINY_ID=$(curl -X POST http://localhost:4000/api/v2/custom-dashboards \
+#                     -H "Authorization: API-Key ${API_KEY}" \
+#                     -H "Content-Type: application/json" \
+#                     --data-raw '{
+#     "name": "Shining Shiny",
+#     "type": "shiny_dashboard"
+#   }' \
+#                    | jq -r .id)
+
+# echo "."
+# echo $SHINY_ID
+# echo "."
+# curl -X POST http://localhost:4000/api/v2/custom-dashboards/${SHINY_ID}/source \
+#      -H "Authorization: API-Key ${API_KEY}" \
+#      -F file=@"./shiny_app.zip"
+
+# curl -X POST http://localhost:4000/api/v2/resource-connections \
+#      -H "Authorization: API-Key ${API_KEY}" \
+#      -H "Content-Type: application/json" \
+#      --data-raw '{
+#     "log_id":"'"${LOG_ID}"'",
+#     "custom_dashboard_id":"'"${SHINY_ID}"'"
+#   }'
