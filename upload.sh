@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/usr/bin/env bash
+
 API_KEY="<API_KEY>"
 DASHBOARD_ID="<DASHBOARD_ID>"
 URL="<URL>"
