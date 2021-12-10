@@ -1,23 +1,33 @@
+git submodule update --init --recursive
+
 # Python Dashboard for Lana PM
 
 A documented example for python dashboards that can be used as a starting point
 for any new dashboards. The example shows a multipage app with a rather simple
-page 1 and a more complicated page 2. Page one can be seen as an example of how
-to create simple dashboard pages with elements being mostly independent of each
-other. Page 2 shows a complicated case where a table can be updated by the user,
-which then calculates the cost and updates a KPI below. Additionally a graph
-shows the occurences of the event selected in the table. For documentation of
-how to create plots, we refer to the documentation of Ploty and Dash. For an
-explanation of how to make api requests to the backend please see the Pylana
-Documentation and the api specifications of Lana Process Mining.
+page-1 and a more complex page-2.
 
-## Getting started
+* Page-1 can be seen as an example of how to create simple dashboard page with
+  elements being mostly independent of each other.
 
-### Install requirements
+* Page 2 shows a more complex case where a table can be updated by the user,
+  which then calculates the cost and updates a KPI below.
+
+Additionally a graph shows the occurences of the event selected in the table.
+For documentation of how to create plots, we refer to the documentation of Plotly
+and Dash. For an explanation of how to make api requests to the backend please
+see the Pylana documentation and the api specifications of Lana Process Mining.
+
+## Getting started for a local setup without Process Mining front-end
+
+TODO rephrase
+### Preparing the local system
 
 Create a new conda environment using:
 
-`conda create env --env name`
+`conda-shell`
+`conda create -n <env-name>`
+
+where _<env-name>_ is the name of the conda environment to be used.
 
 Activate that environment using:
 
@@ -25,24 +35,41 @@ Activate that environment using:
 
 Install required packages:
 
-`conda install requirements.txt`
-`conda install lana_listener-0.0.1.tar.gz`
+`conda install -u`
 
+`pip install pylana`
+`pip install lana_listener-0.0.1.tar.gz`
+
+Where _pylana_ is available in public repository;
+_lana-listener_ component shall be sourced as a ready made package from lanalabs/github.
+
+One may use a _requirements.txt_ to install generic dependencies into the
+particular conda environment that is hosted natively on the local system in
+order to develop the dashboard. Note that, these installed dependencies will not
+be carried over into target system as installed ones!
+
+A requirements file may be used from the mining repository which is also used
+for production setup to look up and install dependencies.
+
+TODO
 ### Setting up configs and running the dashboard locally
 
 It is possible to run the dashboard independent of LANA PM.
 Simply fill in the API key and log_id into the `lana_listener` object and start
 `index.py`.
 
+TODO where is it uploaded? local/production/cloud?
+TODO Call it deployment instead of uploading.
 ### Uploading your first dashboard
 
-Simply follow the steps in the jupyter-notebook to create a dashbaord and link
+Simply follow the steps in the jupyter-notebook to create a dashboard and link
 it to the log. Once you have the `dashboard_id` and it is connected to the
 log, you will be able to upload source code either using the notebook, or using
 the `upload.sh` script. For a detailed instruction of how to upload also
 other types of dashboards, as well as a Bash and Python guide to upload, please
 see `UploadTutorial.pdf`.
 
+TODO This is called replacing source code of an existing dashboard.
 ### Uploading (new) source-code
 
 First stop tracking the `upload.sh` file so that you can change the file without
