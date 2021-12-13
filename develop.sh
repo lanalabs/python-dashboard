@@ -2,6 +2,7 @@
 
 set -e
 
+# TODO Remove secrets
 DASHBOARD_NAME="csimple"
 ASSETSRC="simple_dashboard"
 LOG_ID="3fc2d6e5-c9b8-4f5f-9167-8a6691a4b469"
@@ -53,40 +54,3 @@ while [ 1 ]; do
 done
 
 exit 0
-
-
-# curl -X POST http://localhost:4000/api/v2/custom-dashboards/${DASHBOARD_ID}/source \
-#      -H "Authorization: API-Key ${API_KEY}" \
-#      -F file=@"./python_app.zip"
-
-# curl -X POST http://localhost:4000/api/v2/resource-connections \
-#      -H "Authorization: API-Key ${API_KEY}" \
-#      -H "Content-Type: application/json" \
-#      --data-raw '{
-#     "log_id":"'"${LOG_ID}"'",
-#     "custom_dashboard_id":"'"${DASHBOARD_ID}"'"
-#   }'
-
-# SHINY_ID=$(curl -X POST http://localhost:4000/api/v2/custom-dashboards \
-#                     -H "Authorization: API-Key ${API_KEY}" \
-#                     -H "Content-Type: application/json" \
-#                     --data-raw '{
-#     "name": "Shining Shiny",
-#     "type": "shiny_dashboard"
-#   }' \
-#                    | jq -r .id)
-
-# echo "."
-# echo $SHINY_ID
-# echo "."
-# curl -X POST http://localhost:4000/api/v2/custom-dashboards/${SHINY_ID}/source \
-#      -H "Authorization: API-Key ${API_KEY}" \
-#      -F file=@"./shiny_app.zip"
-
-# curl -X POST http://localhost:4000/api/v2/resource-connections \
-#      -H "Authorization: API-Key ${API_KEY}" \
-#      -H "Content-Type: application/json" \
-#      --data-raw '{
-#     "log_id":"'"${LOG_ID}"'",
-#     "custom_dashboard_id":"'"${SHINY_ID}"'"
-#   }'
