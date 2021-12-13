@@ -1,10 +1,11 @@
-git submodule update --init --recursive
+develop.sh
+emphaise what partial results and where can be accessed
 
 # Python Dashboard for Lana PM
 
 A documented example for python dashboards that can be used as a starting point
-for any new dashboards. The example shows a multipage app with a rather simple
-page-1 and a more complex page-2.
+for any new dashboards. An example project _dashboards_ shows a multipage app
+with a rather simple page-1 and a more complex page-2.
 
 * Page-1 can be seen as an example of how to create simple dashboard page with
   elements being mostly independent of each other.
@@ -17,12 +18,29 @@ For documentation of how to create plots, we refer to the documentation of Plotl
 and Dash. For an explanation of how to make api requests to the backend please
 see the Pylana documentation and the api specifications of Lana Process Mining.
 
+Additionally, a rather minimalistic dashboard is also provided by the project
+_minimalistic\_dashboard_, which is potentially the simplest example that
+involves the smallest set of external dependencies.
+
 ## Getting started for a local setup without Process Mining front-end
 
-TODO rephrase
-### Preparing the local system
+There are two potential ways to choose from for developing any dashboard, in
+order to run the desired code:
+ - Running the entire system via docker-compose on a local computer. This
+   involves to be able to run _Process Mining_ as a whole.
+ - Developing the dashboard code independently and uploading the code
+   incrementally over and over again until ready to some remotely available
+   setup. (not recommended)
 
-Create a new conda environment using:
+### Preparing a (your) local system
+ for using Python
+
+Make sure the submodules are pulled and up-to-date on the example project of
+your interest, execute in the root of this repository:
+
+`git submodule update --init --recursive`
+
+Create a new conda environment using in one of the example project folder:
 
 `conda-shell`
 `conda create -n <env-name>`
@@ -46,21 +64,22 @@ _lana-listener_ component shall be sourced as a ready made package from lanalabs
 One may use a _requirements.txt_ to install generic dependencies into the
 particular conda environment that is hosted natively on the local system in
 order to develop the dashboard. Note that, these installed dependencies will not
-be carried over into target system as installed ones!
+be carried over onto the target system as installed ones!
 
-A requirements file may be used from the mining repository which is also used
-for production setup to look up and install dependencies.
+When the setup of the local system and the remote system diverges, e.g.
+supported python versions, available dependencies, etc; that may result in
+failure.
 
-TODO
+A __requirements.txt_ file may be used, that is defined in the mining repository's
+container setup that is actually used for production setup.
+
 ### Setting up configs and running the dashboard locally
 
 It is possible to run the dashboard independent of LANA PM.
 Simply fill in the API key and log_id into the `lana_listener` object and start
-`index.py`.
+`index.py` in your own python (potentially _conda_) environment.
 
-TODO where is it uploaded? local/production/cloud?
-TODO Call it deployment instead of uploading.
-### Uploading your first dashboard
+### Deploying your dashboard
 
 Simply follow the steps in the jupyter-notebook to create a dashboard and link
 it to the log. Once you have the `dashboard_id` and it is connected to the
@@ -69,15 +88,16 @@ the `upload.sh` script. For a detailed instruction of how to upload also
 other types of dashboards, as well as a Bash and Python guide to upload, please
 see `UploadTutorial.pdf`.
 
-TODO This is called replacing source code of an existing dashboard.
-### Uploading (new) source-code
+### Uploading/replacing source-code of an existing Advanced dashboard
 
-First stop tracking the `upload.sh` file so that you can change the file without
-pushing the changes to git by accident.
+First, stop tracking the `upload.sh` file by git on your local machine, so that
+you can modify its content without making actual changes to the original version
+in the repository, by accident.
 
 `git update-index --assume-unchanged upload.sh`
 
-After filling in the api_key, dashboard_id and url, open the terminal and run
+After assigning value to the `API_KEY`, `DASHBOARD_ID` and `URL` variables
+respectively in the `upload.sh` scipt, open a terminal and execute it:
 
 `bash upload.sh`
 
@@ -85,8 +105,8 @@ Refresh the Advanced Dashboard page in LANA PM and the dashboard should appear.
 
 ## Add Graphs, Interactions and Pages
 
-This repository follows a basic structure to allow for multiple pages. Each page
-has its own URL with navigation enabled by the navbar at the top. The folder
+The provided _dashboards_ project example follows a basic structure to allow for multiple pages. Each page
+has its own URL with navigation enabled by the navigation-bar at the top. The folder
 structure is as follows:
 
 ```
@@ -101,13 +121,13 @@ structure is as follows:
    |-- api_requests.py
 ```
 
-Common functionality should be shared across pages using the
-`dashboard-components` submodule. Elements that have the same formatting should
-be defined as functions and not as copy pasted code. If API calls or data can be
-used by other functions, they should also be implemented in an accessible way.
-The more functions elements and functions are implemented, the fewer time it
-will take to build new dashboards. On how to use submodules please see the Wiki
-entry here:
-
+Common functionalities should be shared across pages using the
+`dashboard-components` git-submodule. Elements that have the same formatting
+should be defined as functions and not as copy pasted code. In case API calls or
+data needs to be used by any other function, those should also be implemented in
+an accessible way. The more function elements and functions are implemented,
+the fewer time it will take to build new dashboards. On how to use submodules
+please see the Wiki entry here:
 
 https://github.com/lanalabs/python-dashboard/wiki/Working-with-submodules-in-VS-Code
+.
