@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 from app import app
 from api_calls import number_of_cases
 from dash.dependencies import Input, Output
-from dashboard_components.indicator_objects import indicator_div, indicator_col
+from dashboard_components.indicator_objects import indicator_div
 
 llistener = lana_listener.LanaListener(
     id='LanaListener',
@@ -17,7 +17,7 @@ llistener = lana_listener.LanaListener(
 layout = html.Div(children=[llistener,
                             html.Br(),
                             dbc.Row([dbc.Col(id="number_cases", width={"size": 3}),
-                                     dbc.Col(id="number_cases_tfs",width={"size": 3})
+                                     dbc.Col(id="number_cases_tfs", width={"size": 3})
                                      ])])
 
 @app.callback(
@@ -40,4 +40,3 @@ def number_case_tfs(api_key, log_id, tfs):
     num_cases = number_of_cases(log_id, api_key, tfs)
     ind = indicator_div(num_cases, title="Anzahl Cases (mit TFS)")
     return ind
-

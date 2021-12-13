@@ -21,5 +21,6 @@ def display_page(pathname):
     else:
         return page_1.layout
 
+
 if __name__ == '__main__':
     app.run_server(debug=False)
