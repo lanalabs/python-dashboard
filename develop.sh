@@ -45,11 +45,13 @@ while [ 1 ]; do
 
   read
 
-  echo "DELETING"
+  echo "DELETING dashboard ..."
 
   curl -X DELETE ${URL}/api/v2/custom-dashboards/${DASHBOARD_ID} \
                     -H "Authorization: API-Key ${API_KEY}" \
                     -H "Content-Type: application/json"
+
+  echo "Press Enter to move on!"
   read
 done
 
