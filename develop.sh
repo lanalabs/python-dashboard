@@ -11,8 +11,10 @@ URL="http://localhost:4000"
 ASSET="../upload.zip"
 
 while [ 1 ]; do
-  rm -f ${ASSET}
-  pushd $ASSETSRC && zip -r ${ASSET} * && popd
+  rm -f $ASSET
+  pushd $ASSETSRC
+  zip -r $ASSET *
+  popd
 
   DASHBOARD_ID=$(curl -X POST ${URL}/api/v2/custom-dashboards \
                       -H "Authorization: API-Key ${API_KEY}" \
