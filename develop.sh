@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-set -e
+#set -e
 
-# TODO Remove secrets
+LOG_ID=""
+API_KEY=""
 DASHBOARD_NAME="csimple"
-ASSETSRC="simple_dashboard"
-LOG_ID="3fc2d6e5-c9b8-4f5f-9167-8a6691a4b469"
-API_KEY="abbbed8d6f5544c9873ee353d95d2fe4"
+ASSETSRC="minimalistic_dashboard"
 URL="http://localhost:4000"
 ASSET="../upload.zip"
 
