@@ -1,3 +1,6 @@
 [submodule "dashboard/dashboard_components"]
 	path = dashboard/dashboard_components
 	url = git@github.com:lanalabs/dashboard_components.git
+[submodule "minimalistic_dashboard/dashboard_components"]
+	path = minimalistic_dashboard/dashboard_components
+	url = git@github.com:lanalabs/dashboard_components.git
